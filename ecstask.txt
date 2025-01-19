@@ -1,0 +1,38 @@
+{
+  "family": "spring-boot-app-task-definition",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "spring-boot-app",
+      "image": "<AWS_ACCOUNT_ID>.dkr.ecr.<region>.amazonaws.com/spring-boot-app:latest",
+      "essential": true,
+      "memory": 512,
+      "cpu": 256,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_PROFILES_ACTIVE",
+          "value": "prod"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/spring-boot-app",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}
